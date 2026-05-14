@@ -3,14 +3,12 @@ package Model;
 public class Item {
 
     private int idItem;
-    private String nome;
-    private String tipo;
+    private Produto produto;
     private int quantidade;
 
-    public Item(int idItem, String nome, String tipo, int quantidade) {
+    public Item(int idItem, Produto produto, int quantidade) {
         this.idItem = idItem;
-        this.nome = nome;
-        this.tipo = tipo;
+        this.produto = produto;
         this.quantidade = quantidade;
     }
 
@@ -18,12 +16,16 @@ public class Item {
         return idItem;
     }
 
+    public Produto getProduto() {
+        return produto;
+    }
+
     public String getNome() {
-        return nome;
+        return produto.getNome();
     }
 
     public String getTipo() {
-        return tipo;
+        return produto.getTipo();
     }
 
     public int getQuantidade() {
@@ -32,6 +34,10 @@ public class Item {
 
     @Override
     public String toString() {
-        return nome + " | " + tipo + " | qtd: " + quantidade;
+        return produto.getNome()
+                + " | "
+                + produto.getTipo()
+                + " | qtd: "
+                + quantidade;
     }
 }

@@ -7,6 +7,8 @@ import Model.Cartao;
 import Model.Cesta;
 import Model.Item;
 import Model.Plano;
+import Model.Produto;
+import repository.CatalogoProdutos;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,10 +18,12 @@ public class AppWeb {
 
     private AssinaturaController controller;
     private Scanner scanner;
+    private CatalogoProdutos catalogoProdutos;
 
     public AppWeb(AssinaturaController controller) {
         this.controller = controller;
         this.scanner = new Scanner(System.in);
+        this.catalogoProdutos = new CatalogoProdutos();
     }
 
     public void iniciar() {
@@ -150,11 +154,7 @@ public class AppWeb {
             System.out.println("---------------------------------------");
 
             System.out.println("\nMenu da cesta:");
-            System.out.println("1 - Adicionar Banana  | Fruta");
-            System.out.println("2 - Adicionar Maca    | Fruta");
-            System.out.println("3 - Adicionar Alface  | Verdura");
-            System.out.println("4 - Adicionar Tomate  | Legume");
-            System.out.println("5 - Adicionar Cenoura | Legume");
+            exibirProdutosDisponiveis();
             System.out.println("6 - Visualizar cesta");
             System.out.println("7 - Remover item da cesta");
             System.out.println("0 - Finalizar cesta");
@@ -176,7 +176,9 @@ public class AppWeb {
                 continue;
             }
 
-            if (opcao < 1 || opcao > 5) {
+            Produto produtoSelecionado = catalogoProdutos.buscarProdutoPorId(opcao);
+
+            if (produtoSelecionado == null) {
                 System.out.println("Opcao invalida.");
                 continue;
             }
@@ -201,17 +203,12 @@ public class AppWeb {
                 continue;
             }
 
-            Item item = criarItemPorOpcao(opcao, quantidade);
-
-            if (item == null) {
-                System.out.println("Opcao invalida. Item nao adicionado.");
-                continue;
-            }
+            Item item = criarItemPorProduto(produtoSelecionado, quantidade);
 
             itens.add(item);
             totalItens += quantidade;
 
-            System.out.println("Item adicionado: " + item.getNome());
+            System.out.println("Item adicionado: " + produtoSelecionado.getNome());
         }
 
         Cesta cesta = controller.montarCesta(itens, plano);
@@ -221,6 +218,22 @@ public class AppWeb {
         }
 
         return cesta;
+    }
+
+    private void exibirProdutosDisponiveis() {
+        System.out.println("Produtos disponiveis:");
+
+        for (Produto produto : catalogoProdutos.listarProdutos()) {
+            System.out.println(produto.getIdProduto()
+                    + " - Adicionar "
+                    + produto.getNome()
+                    + " | "
+                    + produto.getTipo());
+        }
+    }
+
+    private Item criarItemPorProduto(Produto produto, int quantidade) {
+        return new Item(produto.getIdProduto(), produto, quantidade);
     }
 
     private void visualizarItensCesta(List<Item> itens, int totalItens, Plano plano) {
@@ -283,23 +296,6 @@ public class AppWeb {
         }
 
         return total;
-    }
-
-    private Item criarItemPorOpcao(int opcao, int quantidade) {
-        switch (opcao) {
-            case 1:
-                return new Item(1, "Banana", "Fruta", quantidade);
-            case 2:
-                return new Item(2, "Maca", "Fruta", quantidade);
-            case 3:
-                return new Item(3, "Alface", "Verdura", quantidade);
-            case 4:
-                return new Item(4, "Tomate", "Legume", quantidade);
-            case 5:
-                return new Item(5, "Cenoura", "Legume", quantidade);
-            default:
-                return null;
-        }
     }
 
     private String informarEndereco() {

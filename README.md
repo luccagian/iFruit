@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-# Sistema de Assinatura de Cestas
+# iFruit
 
 ## 1. Descrição do Projeto
 

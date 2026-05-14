@@ -10,28 +10,12 @@ O sistema foi desenvolvido com base nos diagramas UML elaborados durante as etap
 - Diagrama de Classes de Projeto;
 - Diagrama de Sequência.
 
-O objetivo é transformar o modelo dinâmico representado no Diagrama de Sequência em uma implementação prática em Java, mantendo correspondência entre os modelos UML e o código-fonte.
-
 O sistema permite que um assinante realize o cadastro/autenticação, escolha um plano mensal, monte uma cesta respeitando o limite total de itens do plano, informe endereço de entrega, cadastre cartão de crédito, confirme a assinatura e tenha seus dados persistidos em arquivo `.txt`.
 
----
-
-## 2. Objetivo da Atividade
-
-O objetivo desta atividade é implementar o cenário principal do caso de uso desenvolvido pelo grupo, utilizando Java e respeitando a separação entre:
-
-- Objetos de fronteira;
-- Controller;
-- Entidades de domínio;
-- Services;
-- Repositories;
-- Persistência em arquivo.
-
-A implementação deve corresponder aos modelos de projeto criados durante as fases de análise e design.
 
 ---
 
-## 3. Caso de Uso Principal
+## 2. Caso de Uso Principal
 
 ### Nome do Caso de Uso
 
@@ -47,7 +31,7 @@ O assinante acessa o sistema, informa seus dados, valida o acesso por código, e
 
 ---
 
-## 4. Fluxo Principal do Caso de Uso
+## 3. Fluxo Principal do Caso de Uso
 
 1. O assinante acessa o sistema.
 2. O sistema solicita nome e telefone.
@@ -70,9 +54,9 @@ O assinante acessa o sistema, informa seus dados, valida o acesso por código, e
 
 ---
 
-## 5. Regras de Negócio
+## 4. Regras de Negócio
 
-### 5.1 Planos Mensais
+### 4.1 Planos Mensais
 
 O sistema possui três planos mensais:
 
@@ -84,7 +68,7 @@ O sistema possui três planos mensais:
 
 ---
 
-### 5.2 Limite da Cesta
+### 4.2 Limite da Cesta
 
 Cada plano define apenas o **total máximo de itens da cesta**.
 
@@ -106,7 +90,7 @@ O importante é que o total não ultrapasse o limite do plano.
 
 ---
 
-### 5.3 Remoção de Itens
+### 4.3 Remoção de Itens
 
 Durante a montagem da cesta, o assinante pode:
 
@@ -121,7 +105,7 @@ Quando um item é removido, o sistema recalcula automaticamente o total de itens
 
 ---
 
-### 5.4 Pagamento
+### 4.4 Pagamento
 
 O pagamento é realizado somente por cartão de crédito, pois o sistema representa uma assinatura mensal.
 
@@ -146,7 +130,7 @@ CVV: 123
 
 ---
 
-### 5.5 Alteração de Plano
+### 4.5 Alteração de Plano
 
 Após a assinatura ser confirmada, o sistema permite que o assinante altere o plano.
 
@@ -160,7 +144,7 @@ Ao alterar o plano:
 
 ---
 
-## 6. Arquitetura Utilizada
+## 5. Arquitetura Utilizada
 
 O projeto segue uma organização baseada no padrão MVC, com camadas auxiliares de `service` e `repository`.
 
@@ -243,33 +227,32 @@ AssinaturaRepository
 
 ---
 
-## 7. Estrutura do Projeto
+## 6. Estrutura do Projeto
 
 ```text
-ProjetoAssinaturaCestas/
-├── src/
-│   ├── Main.java
-│   ├── controller/
-│   │   └── AssinaturaController.java
-│   ├── view/
-│   │   └── AppWeb.java
-│   ├── model/
-│   │   ├── Assinante.java
-│   │   ├── Conta.java
-│   │   ├── Plano.java
-│   │   ├── Item.java
-│   │   ├── Cesta.java
-│   │   ├── Cartao.java
-│   │   ├── Pagamento.java
-│   │   ├── Entrega.java
-│   │   └── Assinatura.java
-│   ├── service/
-│   │   ├── ContaService.java
-│   │   ├── CestaService.java
-│   │   ├── AssinaturaService.java
-│   │   ├── PagamentoService.java
-│   │   └── EntregaService.java
-│   └── repository/
+iFruit/
+├── Main.java
+├── Controller/
+│   └── AssinaturaController.java
+├── View/
+│   └── AppWeb.java
+├── Model/
+│   ├── Assinante.java
+│   ├── Conta.java
+│   ├── Plano.java
+│   ├── Item.java
+│   ├── Cesta.java
+│   ├── Cartao.java
+│   ├── Pagamento.java
+│   ├── Entrega.java
+│   └── Assinatura.java
+├── Service/
+│   ├── ContaService.java
+│   ├── CestaService.java
+│   ├── AssinaturaService.java
+│   ├── PagamentoService.java
+│   └── EntregaService.java
+├── repository/
 │       ├── PlanoRepository.java
 │       └── AssinaturaRepository.java
 ├── assinaturas.txt
@@ -280,513 +263,33 @@ O arquivo `assinaturas.txt` é criado automaticamente na raiz do projeto quando 
 
 ---
 
-## 8. Diagrama de Domínio
+## 7. Diagrama de Domínio
 
 O Diagrama de Domínio representa os principais conceitos do negócio.
 
-```plantuml
-@startuml
-
-title Diagrama de Domínio - Sistema de Assinatura de Cestas
-
-skinparam classAttributeIconSize 0
-skinparam linetype ortho
-skinparam nodesep 80
-skinparam ranksep 90
-
-top to bottom direction
-
-class Assinante {
-    assinanteId
-    nome
-    celular
-}
-
-class CodigoVerificacao {
-    codigoId
-    codigo
-    dataExpiracao
-}
-
-class Endereco {
-    enderecoId
-    cep
-    rua
-    numero
-    complemento
-    nomeDestinatario
-}
-
-class Assinatura {
-    assinaturaId
-    status
-    dataInicio
-    numeroProtocolo
-}
-
-class Plano {
-    planoId
-    nome
-    valor
-    qtdTotalItens
-}
-
-class Cesta {
-    cestaId
-    status
-}
-
-class ItemCesta {
-    itemCestaId
-    quantidade
-}
-
-class Produto {
-    produtoId
-    nome
-    preco
-}
-
-class Fruta {
-}
-
-class Legume {
-}
-
-class Verdura {
-}
-
-class Catalogo {
-    catalogoId
-    semanaReferencia
-    ativo
-}
-
-class Pagamento {
-    pagamentoId
-    valor
-    status
-    dataPagamento
-}
-
-class Cartao {
-    cartaoId
-    nomeTitular
-    ultimos4Digitos
-    tokenCartao
-}
-
-class Entrega {
-    entregaId
-    status
-    dataEntrega
-}
-
-class TermoServico {
-    termoId
-    versao
-}
-
-class AceiteTermo {
-    aceiteId
-    dataAceite
-    aceito
-}
-
-Assinante "1" -- "0..*" CodigoVerificacao : recebe
-Assinante "1" -- "0..*" Endereco : possui
-Assinante "1" -- "0..*" Cartao : possui
-Assinante "1" -- "0..*" Assinatura : realiza
-Assinante "1" -- "0..*" AceiteTermo : aceita
-
-TermoServico "1" -- "0..*" AceiteTermo : registra
-
-Assinatura "1" -- "1" Plano : utiliza
-Assinatura "1" -- "1" Cesta : contem
-Assinatura "1" -- "0..*" Pagamento : gera
-Assinatura "1" -- "0..*" Entrega : gera
-
-Entrega "1" -- "1" Endereco : usa
-
-Pagamento "1" -- "1" Cartao : utiliza
-
-Cesta "1" -- "0..*" ItemCesta : possui
-ItemCesta "1" -- "1" Produto : referencia
-
-Catalogo "1" -- "0..*" Produto : disponibiliza
-
-Produto <|-- Fruta
-Produto <|-- Legume
-Produto <|-- Verdura
-
-@enduml
-```
+[Acesse o Diagrama aqui](https://github.com/luccagian/iFruit/wiki/Entrega-4-%E2%80%90-Implementa%C3%A7%C3%A3o-do-Cen%C3%A1rio-do-Caso-de-Uso#diagrama-de-classes)
 
 ---
 
-## 9. Diagrama de Classes de Projeto
+## 8. Diagrama de Classes de Projeto
 
 O Diagrama de Classes de Projeto representa a estrutura implementada em Java.
 
 Este diagrama mostra principalmente métodos, seguindo o padrão adotado no projeto.
 
-```plantuml
-@startuml
-
-title Diagrama de Classes de Projeto - Sistema de Assinatura de Cestas
-
-skinparam classAttributeIconSize 0
-skinparam linetype ortho
-skinparam nodesep 70
-skinparam ranksep 80
-
-top to bottom direction
-
-class Assinante {
-    + getIdAssinante()
-    + getNome()
-    + getTelefone()
-}
-
-class Conta {
-    + criarContaFone()
-    + buscarContaFone()
-    + validarCodigo()
-    + getAssinante()
-}
-
-class Plano {
-    + getCodPlano()
-    + getNome()
-    + getDescricao()
-    + getValor()
-    + getLimiteTotalItens()
-}
-
-class Cesta {
-    + adicionarItem()
-    + removerItem()
-    + calcularTotalItens()
-    + getItens()
-    + getTotalItens()
-}
-
-class Item {
-    + getIdItem()
-    + getNome()
-    + getTipo()
-    + getQuantidade()
-}
-
-class Cartao {
-    + getCartaoId()
-    + getNomeTitular()
-    + getNumero()
-    + getValidade()
-    + getCvv()
-    + getUltimos4Digitos()
-}
-
-class Pagamento {
-    + aprovar()
-    + recusar()
-    + getValor()
-    + getStatus()
-    + getDataPagamento()
-    + getCartao()
-}
-
-class Entrega {
-    + configurarEntrega()
-    + confirmarEntrega()
-    + getEndereco()
-    + getStatusEntrega()
-    + getDataEntrega()
-}
-
-class Assinatura {
-    + definirPlano()
-    + alterarPlano()
-    + definirCesta()
-    + adicionarPagamento()
-    + adicionarEntrega()
-    + confirmarAssinatura()
-    + getStatus()
-    + getPlano()
-    + getCesta()
-    + getPagamentos()
-    + getEntregas()
-}
-
-class AssinaturaController {
-    + buscarOuCriarConta()
-    + validarCodigo()
-    + definirPlano()
-    + montarCesta()
-    + definirEntrega()
-    + criarAssinatura()
-    + alterarPlano()
-}
-
-class ContaService {
-    + buscarOuCriarConta()
-    + validarCodigo()
-}
-
-class CestaService {
-    + criarCesta()
-    + validarLimiteTotalPlano()
-}
-
-class AssinaturaService {
-    + buscarPlano()
-    + validarAssinatura()
-    + gerarAssinatura()
-    + alterarPlano()
-}
-
-class PagamentoService {
-    + validarCartao()
-    + processarPagamento()
-}
-
-class EntregaService {
-    + validarEndereco()
-    + agendarEntrega()
-}
-
-class PlanoRepository {
-    + buscarPlano()
-    + listarPlanos()
-}
-
-class AssinaturaRepository {
-    + salvar()
-}
-
-Conta "1" --> "1" Assinante : autentica
-
-Assinante "1" --> "0..*" Assinatura : possui
-
-Assinatura "1" --> "1" Plano : utiliza
-Assinatura "1" --> "1" Cesta : contem
-Assinatura "1" --> "0..*" Pagamento : gera
-Assinatura "1" --> "0..*" Entrega : gera
-
-Cesta "1" *-- "0..*" Item : composicao
-
-Pagamento "1" --> "1" Cartao : utiliza
-
-AssinaturaController --> ContaService
-AssinaturaController --> CestaService
-AssinaturaController --> AssinaturaService
-AssinaturaController --> EntregaService
-
-ContaService --> Conta
-ContaService --> Assinante
-
-CestaService --> Cesta
-CestaService --> Item
-CestaService --> Plano
-
-AssinaturaService --> PlanoRepository
-AssinaturaService --> Assinatura
-AssinaturaService --> PagamentoService
-AssinaturaService --> EntregaService
-AssinaturaService --> AssinaturaRepository
-
-PlanoRepository --> Plano
-
-PagamentoService --> Pagamento
-PagamentoService --> Cartao
-
-EntregaService --> Entrega
-
-AssinaturaRepository --> Assinatura
-
-@enduml
-```
+[Acesse o Diagrama aqui](https://github.com/luccagian/iFruit/wiki/Entrega-4-%E2%80%90-Implementa%C3%A7%C3%A3o-do-Cen%C3%A1rio-do-Caso-de-Uso#diagrama-de-classe-de-projeto)
 
 ---
 
-## 10. Diagrama de Sequência
+## 9. Diagrama de Sequência
 
 O Diagrama de Sequência representa o comportamento dinâmico do sistema durante a criação da assinatura.
 
-```plantuml
-@startuml
-
-title Diagrama de Sequência - Criar e Alterar Assinatura de Cesta
-
-actor Assinante
-boundary "AppWeb" as App
-
-control AssinaturaController
-control ContaService
-control CestaService
-control AssinaturaService
-control PagamentoService
-control EntregaService
-
-entity Conta
-entity Plano
-entity Cesta
-entity Item
-entity Cartao
-entity Pagamento
-entity Entrega
-entity Assinatura
-
-database PlanoRepository
-database AssinaturaRepository
-
-== Cadastro e autenticação ==
-
-Assinante -> App : acessarSistema()
-App -> AssinaturaController : buscarOuCriarConta(nome, telefone)
-AssinaturaController -> ContaService : buscarOuCriarConta(nome, telefone)
-ContaService -> Conta : criarContaFone(telefone)
-Conta --> ContaService : contaCriada
-ContaService --> AssinaturaController : assinante
-AssinaturaController --> App : assinante
-
-Assinante -> App : informarCodigo(codigo)
-App -> AssinaturaController : validarCodigo(codigo)
-AssinaturaController -> ContaService : validarCodigo(codigo)
-ContaService -> Conta : validarCodigo(codigo)
-
-alt código válido
-    Conta --> ContaService : codigoValido
-    ContaService --> AssinaturaController : true
-    AssinaturaController --> App : acessoLiberado
-else código inválido
-    Conta --> ContaService : codigoInvalido
-    ContaService --> AssinaturaController : false
-    AssinaturaController --> App : acessoNegado
-end
-
-== Escolha do plano ==
-
-Assinante -> App : selecionarPlano(codPlano)
-App -> AssinaturaController : definirPlano(codPlano)
-AssinaturaController -> AssinaturaService : buscarPlano(codPlano)
-AssinaturaService -> PlanoRepository : buscarPlano(codPlano)
-PlanoRepository --> AssinaturaService : plano
-AssinaturaService --> AssinaturaController : plano
-AssinaturaController --> App : planoSelecionado
-App --> Assinante : exibirLimiteDoPlano()
-
-== Montagem da cesta ==
-
-Assinante -> App : escolherItens()
-App -> AssinaturaController : montarCesta(itens, plano)
-AssinaturaController -> CestaService : criarCesta(itens, plano)
-
-create Cesta
-CestaService -> Cesta : create()
-
-loop para cada item
-    create Item
-    CestaService -> Item : create(item)
-    Item --> CestaService : itemCriado
-    CestaService -> Cesta : adicionarItem(item)
-end
-
-CestaService -> CestaService : validarLimiteTotalPlano(cesta, plano)
-
-alt cesta válida
-    CestaService --> AssinaturaController : cesta
-    AssinaturaController --> App : cestaMontada
-else cesta inválida
-    CestaService --> AssinaturaController : null
-    AssinaturaController --> App : erroLimitePlano
-end
-
-== Entrega e cartão ==
-
-Assinante -> App : informarEndereco(endereco)
-App -> AssinaturaController : definirEntrega(endereco)
-AssinaturaController -> EntregaService : validarEndereco(endereco)
-EntregaService --> AssinaturaController : enderecoValido
-AssinaturaController --> App : enderecoConfirmado
-
-Assinante -> App : informarCartao()
-App -> AssinaturaController : criarAssinatura(assinante, plano, cesta, endereco, cartao)
-
-== Criação da assinatura ==
-
-AssinaturaController -> AssinaturaService : gerarAssinatura(assinante, plano, cesta, endereco, cartao)
-
-AssinaturaService -> AssinaturaService : validarAssinatura(assinante, plano, cesta)
-AssinaturaService -> PagamentoService : processarPagamento(valor, cartao)
-PagamentoService -> PagamentoService : validarCartao(cartao)
-
-alt cartão válido / pagamento aprovado
-    create Pagamento
-    PagamentoService -> Pagamento : create(valor, cartao)
-    PagamentoService --> AssinaturaService : pagamentoAprovado
-
-    create Assinatura
-    AssinaturaService -> Assinatura : create(assinante)
-    AssinaturaService -> Assinatura : definirPlano(plano)
-    AssinaturaService -> Assinatura : definirCesta(cesta)
-    AssinaturaService -> Assinatura : adicionarPagamento(pagamento)
-
-    AssinaturaService -> EntregaService : agendarEntrega(endereco)
-
-    create Entrega
-    EntregaService -> Entrega : create(endereco)
-    EntregaService --> AssinaturaService : entregaConfirmada
-
-    AssinaturaService -> Assinatura : adicionarEntrega(entrega)
-    AssinaturaService -> Assinatura : confirmarAssinatura()
-
-    AssinaturaService -> AssinaturaRepository : salvar(assinatura)
-    AssinaturaRepository --> AssinaturaService : assinaturaSalva
-
-    AssinaturaService --> AssinaturaController : assinatura
-    AssinaturaController --> App : assinaturaConfirmada
-    App --> Assinante : exibirConfirmacao()
-
-else cartão inválido / pagamento recusado
-    PagamentoService --> AssinaturaService : pagamentoRecusado
-    AssinaturaService --> AssinaturaController : null
-    AssinaturaController --> App : erroPagamento
-    App --> Assinante : exibirErroPagamento()
-end
-
-== Alteração de plano ==
-
-Assinante -> App : solicitarAlteracaoPlano()
-App -> AssinaturaController : definirPlano(novoCodPlano)
-AssinaturaController -> AssinaturaService : buscarPlano(novoCodPlano)
-AssinaturaService -> PlanoRepository : buscarPlano(novoCodPlano)
-PlanoRepository --> AssinaturaService : novoPlano
-AssinaturaService --> AssinaturaController : novoPlano
-AssinaturaController --> App : novoPlanoSelecionado
-
-Assinante -> App : montarNovaCesta()
-App -> AssinaturaController : montarCesta(novosItens, novoPlano)
-AssinaturaController -> CestaService : criarCesta(novosItens, novoPlano)
-CestaService --> AssinaturaController : novaCesta
-AssinaturaController --> App : novaCestaMontada
-
-App -> AssinaturaController : alterarPlano(assinatura, novoPlano, novaCesta)
-AssinaturaController -> AssinaturaService : alterarPlano(assinatura, novoPlano, novaCesta)
-AssinaturaService -> Assinatura : alterarPlano(novoPlano)
-AssinaturaService -> Assinatura : definirCesta(novaCesta)
-AssinaturaService -> AssinaturaRepository : salvar(assinatura)
-AssinaturaRepository --> AssinaturaService : alteraçãoSalva
-AssinaturaService --> AssinaturaController : planoAlterado
-AssinaturaController --> App : planoAlterado
-App --> Assinante : exibirPlanoAlterado()
-
-@enduml
-```
+[Acesse o Diagrama aqui](https://github.com/luccagian/iFruit/wiki/Entrega-4-%E2%80%90-Implementa%C3%A7%C3%A3o-do-Cen%C3%A1rio-do-Caso-de-Uso#diagrama-de-sequ%C3%AAncia)
 
 ---
 
-## 11. Correspondência Entre UML e Código
+## 10. Correspondência Entre UML e Código
 
 | Elemento UML | Classe Java |
 |---|---|
@@ -811,7 +314,7 @@ App --> Assinante : exibirPlanoAlterado()
 
 ---
 
-## 12. Persistência
+## 11. Persistência
 
 A persistência foi feita com arquivo `.txt`.
 
@@ -844,7 +347,7 @@ Os dados salvos incluem:
 
 ---
 
-## 13. Exemplo de Conteúdo do Arquivo `assinaturas.txt`
+## 12. Exemplo de Conteúdo do Arquivo `assinaturas.txt`
 
 ```text
 ====================================
@@ -870,7 +373,7 @@ Entregas:
 
 ---
 
-## 14. Como Compilar e Executar
+## 13. Como Compilar e Executar
 
 ### Linux, macOS ou Git Bash
 
@@ -900,7 +403,7 @@ java -cp out Main
 
 ---
 
-## 15. Exemplo de Execução
+## 14. Exemplo de Execução
 
 ```text
 =======================================
@@ -927,7 +430,7 @@ Acesso liberado!
 
 ---
 
-## 16. Menu da Cesta
+## 15. Menu da Cesta
 
 Durante a montagem da cesta, o sistema exibe:
 
@@ -947,7 +450,7 @@ O usuário pode adicionar, visualizar ou remover itens antes de finalizar.
 
 ---
 
-## 17. Exemplo de Dados do Cartão
+## 16. Exemplo de Dados do Cartão
 
 ```text
 Nome do titular: Joao Silva
@@ -958,7 +461,7 @@ CVV: 123
 
 ---
 
-## 18. Tratamento de Validações
+## 17. Tratamento de Validações
 
 O sistema realiza validações em diferentes pontos.
 
@@ -1005,7 +508,7 @@ CVV com 3 ou 4 dígitos
 
 ---
 
-## 19. Tecnologias Utilizadas
+## 18. Tecnologias Utilizadas
 
 - Java;
 - Programação Orientada a Objetos;
@@ -1017,29 +520,7 @@ CVV com 3 ou 4 dígitos
 
 ---
 
-## 20. Roteiro Sugerido para o Vídeo
-
-Para o vídeo de explicação, recomenda-se seguir esta ordem:
-
-1. Apresentar o objetivo do sistema;
-2. Mostrar o Diagrama de Domínio;
-3. Explicar as principais entidades;
-4. Mostrar o Diagrama de Classes de Projeto;
-5. Explicar a arquitetura MVC;
-6. Mostrar o Diagrama de Sequência;
-7. Explicar o fluxo principal;
-8. Mostrar o código-fonte organizado em pastas;
-9. Executar o sistema pelo terminal;
-10. Criar uma assinatura completa;
-11. Mostrar a validação da cesta;
-12. Mostrar a validação do cartão;
-13. Mostrar a alteração de plano;
-14. Mostrar o arquivo `assinaturas.txt` gerado;
-15. Concluir explicando a correspondência entre UML e código.
-
----
-
-## 21. Considerações Finais
+## 19. Considerações Finais
 
 O projeto implementa o fluxo principal do caso de uso de criação de assinatura de cestas, respeitando os diagramas UML desenvolvidos na fase de análise e projeto.
 

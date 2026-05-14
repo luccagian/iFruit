@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Sistema de Assinatura de Cestas
 
 ## 1. Descrição do Projeto
@@ -1048,3 +1049,6 @@ A implementação utiliza Java com organização MVC, separando responsabilidade
 A persistência foi realizada em arquivo `.txt`, atendendo ao requisito da atividade.
 
 O sistema permite criar assinatura, validar cesta, processar pagamento por cartão, salvar os dados e alterar o plano posteriormente.
+=======
+Link entrega 1 (youtube) = https://youtu.be/OTf_xURELyk
+>>>>>>> afa93b23703f3dec49acda813d97bc01a1edd939

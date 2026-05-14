@@ -1049,8 +1049,8 @@ A persistência foi realizada em arquivo `.txt`, atendendo ao requisito da ativi
 
 O sistema permite criar assinatura, validar cesta, processar pagamento por cartão, salvar os dados e alterar o plano posteriormente.
 
+---
 
-=======
 Link entrega 1 (youtube) = https://youtu.be/OTf_xURELyk
 
 Link entrega 4 (youtube) = 

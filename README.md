@@ -534,4 +534,4 @@ O sistema permite criar assinatura, validar cesta, processar pagamento por cartÃ
 
 Link entrega 1 (youtube) = https://youtu.be/OTf_xURELyk
 
-Link entrega 4 (youtube) = 
+Link entrega 4 (youtube) = https://youtu.be/jNy_1cAcb84

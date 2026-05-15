@@ -16,21 +16,4 @@ Entregas:
 - Endereco: Rua das Flores, 123 - Centro - Sao Paulo/SP | Data: 2026-05-16 | Status: CONFIRMADA
 ====================================
 
-====================================
-ID Assinatura: 1
-Status: CONFIRMADA
-Data Criacao: 2026-05-14
-Assinante: gian
-Telefone: 11999999999
-Plano: Mensal Premium
-Valor Plano: R$ 189.9
-Limite Total da Cesta: 20
-Total de Itens Escolhidos: 5
-Itens da Cesta:
-- Alface | Tipo: Verdura | Quantidade: 5
-Pagamentos:
-- Cartao final: 1111 | Valor: R$ 189.9 | Status: APROVADO | Data: 2026-05-14
-Entregas:
-- Endereco: Rua das Flores, 123 - Centro - Sao Paulo/SP | Data: 2026-05-16 | Status: CONFIRMADA
-====================================
 
